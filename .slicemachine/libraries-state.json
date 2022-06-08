@@ -1,0 +1,82 @@
+{
+  "slices": {
+    "components": {
+      "blog_layout": {
+        "library": "slices",
+        "id": "blog_layout",
+        "name": "BlogLayout",
+        "description": "BlogLayout",
+        "model": {
+          "id": "blog_layout",
+          "type": "SharedSlice",
+          "name": "BlogLayout",
+          "description": "BlogLayout",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "BlogLayout",
+              "primary": {
+                "title": {
+                  "type": "StructuredText",
+                  "config": {
+                    "single": "heading1",
+                    "label": "Title",
+                    "placeholder": "This is where it all begins..."
+                  }
+                },
+                "description": {
+                  "type": "StructuredText",
+                  "config": {
+                    "single": "paragraph",
+                    "label": "Description",
+                    "placeholder": "A nice description of your feature"
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "blog_layout",
+            "items": [],
+            "primary": {
+              "title": [
+                {
+                  "type": "heading1",
+                  "text": "Syndicate B2C paradigms",
+                  "spans": []
+                }
+              ],
+              "description": [
+                {
+                  "type": "paragraph",
+                  "text": "Ad ullamco consequat aute do qui sint esse aliquip adipisicing id eu sint officia adipisicing. Anim ad do excepteur ullamco.",
+                  "spans": []
+                }
+              ]
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {
+          "default": {
+            "path": "/home/jvsen/Desktop/IGNITE/projetos/web/ignews/.slicemachine/assets/slices/BlogLayout/default/preview.png",
+            "width": 800,
+            "height": 62
+          }
+        }
+      }
+    }
+  }
+}

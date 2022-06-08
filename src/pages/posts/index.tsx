@@ -1,8 +1,20 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import styles from './styles.module.scss';
+import { createClient } from '../../../prismicio';
+import { asText } from '@prismicio/helpers';
 
-export default function Posts(props) {
+type PostType = {
+    slug: string;
+    title: string;
+    resume: string;
+    updateAp: string;
+}
+interface PostsProps {
+    posts: PostType[]
+}
+
+export default function Posts({ posts }: PostsProps) {
     return(
         <>
             <Head>
@@ -10,34 +22,41 @@ export default function Posts(props) {
             </Head>
             <main className={styles.container}>
                 <div className={styles.posts}>
-                    <a href='#'>
-                        <time>26 de maio de 2020</time>
-                        <strong>Generating RPG Tethered Assets: Phase 2 of Development</strong>
-                        <p>Since the inception of Revolve Games we’ve set out to build a gaming ecosystem on a solid DeFi economy. One of our main focuses is bringing new innovation into the ever blossoming GameFi landscape.</p>
-                    </a>
-                    <a href='#'>
-                        <time>26 de maio de 2020</time>
-                        <strong>Generating RPG Tethered Assets: Phase 2 of Development</strong>
-                        <p>Since the inception of Revolve Games we’ve set out to build a gaming ecosystem on a solid DeFi economy. One of our main focuses is bringing new innovation into the ever blossoming GameFi landscape.</p>
-                    </a>
-                    <a href='#'>
-                        <time>26 de maio de 2020</time>
-                        <strong>Generating RPG Tethered Assets: Phase 2 of Development</strong>
-                        <p>Since the inception of Revolve Games we’ve set out to build a gaming ecosystem on a solid DeFi economy. One of our main focuses is bringing new innovation into the ever blossoming GameFi landscape.</p>
-                    </a>
+                    {posts.map(post => (
+                        <a key={post.slug} href='#'>
+                            <time>{post.updateAp}</time>
+                            <strong>{post.title}</strong>
+                            <p>{post.resume}</p>
+                        </a>
+                    ))}
                 </div>
             </main>
         </>
     )
 };
 
-// export const getStaticProps: GetStaticProps = async ({ previewData }) => {
-//     const client = createClient({ previewData });
 
-//     const page = await client.getAllByType("Post");
-//     console.log('to aqui');
-//     console.log(page);
-//     return {
-//         props: { page }
-//     }
-// }
+export const getStaticProps: GetStaticProps = async ({ previewData }) => {
+  const client = createClient({ previewData })
+
+  const response = await client.getAllByType('ignewsPosts')
+//   console.log("data => ", JSON.stringify(response, null, 2));
+
+  const posts = response.map( post => {
+      console.log("post.data.Title =>", post.data.Title );
+      return {
+        slug: post.uid,
+        title: asText(post.data.Title),
+        resume: post.data.Content.find(content => content.type === 'paragraph')?.text ?? '', // ? essas interrogações funcionam como um if ternario, ou seja, so vai pegar o atributo 'text' se o find não retornar undefinied
+        updateAp: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        })
+    }
+  })
+
+  return {
+    props: { posts }, // Will be passed to the page component as props
+  }
+}
